@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#fff8f1">
+    <meta name="description" content="Sign in to Water & Melon Merch.">
+    <title>Sign In — Water &amp; Melon Merch</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="wordmark" href="index.html#home" aria-label="Water and Melon Merch home">
+        <span class="wordmark-icon" aria-hidden="true">W</span>
+        <span>Water &amp; Melon Merch</span>
+      </a>
+      <nav aria-label="Main navigation">
+        <a href="index.html#home">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="signin.html" aria-current="page">Sign In</a>
+        <a class="sign-up-label" href="signup.html">Sign Up</a>
+      </nav>
+    </header>
+
+    <main class="account-page">
+      <section class="account-card">
+        <span class="account-mark" aria-hidden="true">✳</span>
+        <p class="eyebrow">WELCOME BACK</p>
+        <h1>Sign in</h1>
+        <p class="account-message">Sign in to your Water &amp; Melon Merch account.</p>
+        <form class="auth-form" id="signin-form">
+          <label for="signin-email">Email address</label>
+          <input id="signin-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required>
+          <label for="signin-password">Password</label>
+          <input id="signin-password" name="password" type="password" autocomplete="current-password" placeholder="Your password" required>
+          <button class="primary-button auth-submit" type="submit">Sign in</button>
+        </form>
+        <p class="auth-notice" id="signin-status" aria-live="polite"></p>
+        <p class="auth-switch">New here? <a href="signup.html">Create an account</a></p>
+      </section>
+    </main>
+
+    <footer>
+      <a class="wordmark" href="index.html#home"><span class="wordmark-icon" aria-hidden="true">W</span><span>Water &amp; Melon Merch</span></a>
+      <span>Watermelon-inspired merch, from clothes to collectibles.</span>
+      <a href="shop.html">Visit the shop ↑</a>
+    </footer>
+    <script src="supabase-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth.js"></script>
+  </body>
+</html>

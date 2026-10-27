@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#fff8f1">
+    <meta name="description" content="Explore Water & Melon Merch concepts: hoodies, caps, plushies, mugs, stickers, and more.">
+    <title>Shop — Water &amp; Melon Merch</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="wordmark" href="index.html#home" aria-label="Water and Melon Merch home">
+        <span class="wordmark-icon" aria-hidden="true">W</span>
+        <span>Water &amp; Melon Merch</span>
+      </a>
+      <nav aria-label="Main navigation">
+        <a href="index.html#home">Home</a>
+        <a href="shop.html" aria-current="page">Shop</a>
+        <button class="cart-button" id="cart-toggle" type="button" aria-controls="shopping-cart" aria-expanded="false">
+          <span aria-hidden="true">🛒</span> Cart <span class="cart-count" id="cart-count" aria-live="polite">0</span>
+        </button>
+        <a href="signin.html">Sign In</a>
+        <a class="sign-up-label" href="signup.html">Sign Up</a>
+      </nav>
+    </header>
+
+    <aside class="cart-panel" id="shopping-cart" aria-label="Shopping cart" hidden>
+      <div class="cart-panel-heading">
+        <h2>Your cart</h2>
+        <button class="cart-close" id="cart-close" type="button" aria-label="Close shopping cart">×</button>
+      </div>
+      <div class="cart-items" id="cart-items"><p class="cart-empty">Your cart is empty.</p></div>
+      <label class="delivery-label" for="delivery-region">Delivery destination</label>
+      <select id="delivery-region">
+        <option value="uk">United Kingdom</option>
+        <option value="international">International</option>
+      </select>
+      <div class="cart-total"><span>Total</span><strong id="cart-total">£0</strong></div>
+      <button class="primary-button checkout-button" type="button" disabled>Continue to secure checkout</button>
+      <p class="cart-note">Checkout and delivery rates need setup.</p>
+    </aside>
+
+    <main class="shop-page">
+      <section class="shop-heading">
+        <p class="eyebrow">A WHOLE LOT OF MELON STYLE</p>
+        <h1>Find your <span>fresh fit.</span></h1>
+        <p>From cozy hoodies and fun caps to plushies and little extras, the Water &amp; Melon collection brings a splash of fruit to your everyday.</p>
+      </section>
+      <p class="catalog-note" id="shop-status"><span class="status-dot"></span> Prices are in pounds. Sign in to check out securely.</p>
+      <section class="limited-section" aria-labelledby="limited-title">
+        <div class="limited-heading">
+          <span class="limited-kicker">SMALL BATCH • HERE FOR A SHORT TIME</span>
+          <h2 id="limited-title">Limited <span>melon drop</span></h2>
+          <p>Catch this seasonal plush before it disappears on November 1.</p>
+        </div>
+        <article class="merch-card limited-card" data-product="limited-plush">
+          <div class="merch-art limited-plush-art" role="img" aria-label="Limited edition watermelon-pumpkin plush concept">
+            <svg viewBox="0 0 240 230" aria-hidden="true">
+              <ellipse cx="120" cy="210" rx="72" ry="10" fill="#617b56" opacity=".22"/>
+              <path d="M56 126c0-47 27-79 64-79s64 32 64 79-26 68-64 68-64-21-64-68Z" fill="#f47b48" stroke="#cf593c" stroke-width="7"/>
+              <path d="M120 48c-12 20-12 101 0 143m-25-137c-14 29-14 99 0 129m50-129c14 29 14 99 0 129" fill="none" stroke="#ffb16c" stroke-width="8" opacity=".85"/>
+              <path d="M117 49q-7-27 17-34 7 19-17 34Z" fill="#398a45" stroke="#246b3c" stroke-width="5"/>
+              <path d="M88 113q10-8 20 0m24 0q10-8 20 0" fill="none" stroke="#334535" stroke-width="5" stroke-linecap="round"/>
+              <path d="M106 137q14 13 28 0" fill="none" stroke="#75413b" stroke-width="5" stroke-linecap="round"/>
+              <ellipse cx="88" cy="132" rx="9" ry="5" fill="#ffb2a1"/><ellipse cx="152" cy="132" rx="9" ry="5" fill="#ffb2a1"/>
+              <path d="M49 172q-18 17-6 28 15 7 36-8m112-20q18 17 6 28-15 7-36-8" fill="#f47b48" stroke="#cf593c" stroke-width="6"/>
+            </svg>
+          </div>
+          <div class="merch-card-copy"><span class="merch-type">LIMITED EDITION • UNTIL NOV 1</span><h2>Watermelon Pumpkin Plush</h2><p>A special seasonal plush, available for a limited time.</p><div class="product-buy-row"><strong class="product-price">£20</strong><button class="add-to-cart" type="button">Add to cart</button></div></div>
+        </article>
+      </section>
+      <section class="friends-section" aria-labelledby="friends-title">
+        <div class="friends-heading">
+          <span class="friends-kicker">MEET THE MELON CREW</span>
+          <h2 id="friends-title">Friends of <span>the family</span></h2>
+          <p>Every watermelon needs a few colorful friends. Say hello to the Rainbow Character!</p>
+        </div>
+        <article class="merch-card friends-card">
+          <div class="merch-art rainbow-plush-art" role="img" aria-label="Rainbow Character Plushie concept with colorful rainbow stripes and a smiling face">
+            <svg viewBox="0 0 260 240" aria-hidden="true">
+              <ellipse cx="130" cy="214" rx="74" ry="11" fill="#617b56" opacity=".2"/>
+              <path d="M75 143v-15a55 55 0 0 1 110 0v15Z" fill="#f3d850" stroke="#384c3b" stroke-width="6"/>
+              <path d="M86 143v-15a44 44 0 0 1 88 0v15Z" fill="#f28055"/>
+              <path d="M97 143v-15a33 33 0 0 1 66 0v15Z" fill="#e95663"/>
+              <path d="M108 143v-15a22 22 0 0 1 44 0v15Z" fill="#9475bd"/>
+              <path d="M119 143v-15a11 11 0 0 1 22 0v15Z" fill="#75b9d1"/>
+              <path d="M86 142c-12 8-20 23-19 42 1 20 24 31 63 31s62-11 63-31c1-19-7-34-19-42Z" fill="#fff9f0" stroke="#384c3b" stroke-width="6"/>
+              <path d="M84 153c18 7 74 7 92 0m-99 15c29 8 77 8 106 0m-103 16c27 8 73 8 100 0m-89 17c20 5 58 5 78 0" fill="none" stroke-width="9" stroke-linecap="round"/>
+              <path d="M84 153c18 7 74 7 92 0" fill="none" stroke="#f28055" stroke-width="8" stroke-linecap="round"/>
+              <path d="M77 168c29 8 77 8 106 0" fill="none" stroke="#e95663" stroke-width="8" stroke-linecap="round"/>
+              <path d="M80 184c27 8 73 8 100 0" fill="none" stroke="#9475bd" stroke-width="8" stroke-linecap="round"/>
+              <path d="M91 201c20 5 58 5 78 0" fill="none" stroke="#75b9d1" stroke-width="8" stroke-linecap="round"/>
+              <path d="M76 164c-17-1-26 7-25 18 2 10 12 13 27 9m106-27c17-1 26 7 25 18-2 10-12 13-27 9" fill="#fff9f0" stroke="#384c3b" stroke-width="6" stroke-linecap="round"/>
+              <ellipse cx="111" cy="173" rx="4" ry="6" fill="#384c3b"/><ellipse cx="149" cy="173" rx="4" ry="6" fill="#384c3b"/>
+              <path d="M119 186q11 10 22 0" fill="none" stroke="#384c3b" stroke-width="4" stroke-linecap="round"/>
+              <ellipse cx="99" cy="184" rx="7" ry="4" fill="#ffb6a8"/><ellipse cx="161" cy="184" rx="7" ry="4" fill="#ffb6a8"/>
+              <path d="M101 211v8m58-8v8" stroke="#384c3b" stroke-width="7" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="merch-card-copy">
+            <span class="merch-type">FRIENDS COLLECTION</span>
+            <h2>Rainbow Character Plushie</h2>
+            <p>A bright, stripey new friend with a rainbow arch, soft plush body, and a happy little face.</p>
+            <p class="friend-price-note">Price coming soon</p>
+          </div>
+        </article>
+      </section>
+      <section class="merch-grid" aria-label="Water and Melon merchandise concepts">
+        <article class="merch-card" data-product="plush">
+          <div class="merch-art plush-art"><img src="watermelon-plushie.svg" alt="Blocky watermelon character plush concept wearing a slice hat, black jacket, and green striped pants"></div>
+          <div class="merch-card-copy"><span class="merch-type">COLLECTIBLES</span><h2>Watermelon Avatar Plush</h2><p>A huggable character with its signature slice hat and fresh fit.</p><div class="product-buy-row"><strong class="product-price">£3</strong><button class="add-to-cart" type="button">Add to cart</button></div></div>
+        </article>
+        <article class="merch-card" data-product="hoodie">
+          <div class="merch-art hoodie-art" role="img" aria-label="Illustration of a green watermelon hoodie concept"><span class="hoodie-shape"><i></i><b>✳</b><em></em></span></div>
+          <div class="merch-card-copy"><span class="merch-type">CLOTHING</span><h2>Juicy Hoodie</h2><p>A cozy green hoodie idea with a little watermelon emblem.</p><div class="product-buy-row"><strong class="product-price">£8</strong><button class="add-to-cart" type="button">Add to cart</button></div></div>
+        </article>
+        <article class="merch-card" data-product="cap">
+          <div class="merch-art cap-art" role="img" aria-label="Illustration of a red watermelon cap with green rind"><span class="cap-shape"><i></i><b></b></span></div>
+          <div class="merch-card-copy"><span class="merch-type">ACCESSORIES</span><h2>Watermelon Cap</h2><p>A fresh red cap with leafy-green details for sunny days.</p><div class="product-buy-row"><strong class="product-price">£5</strong><button class="add-to-cart" type="button">Add to cart</button></div></div>
+        </article>
+        <article class="merch-card" data-product="stickers">
+          <div class="merch-art extras-art sticker-art" role="img" aria-label="Watermelon-themed sticker concept"><span class="mini-sticker">M</span><span class="mini-seed seed-one"></span><span class="mini-seed seed-two"></span></div>
+          <div class="merch-card-copy"><span class="merch-type">LITTLE EXTRAS</span><h2>Watermelon Stickers</h2><p>Juicy little melon stickers for your bottle, notebook, or bag.</p><div class="product-buy-row"><strong class="product-price">£1</strong><button class="add-to-cart" type="button">Add to cart</button></div></div>
+        </article>
+        <article class="merch-card" data-product="mug">
+          <div class="merch-art extras-art mug-art" role="img" aria-label="Watermelon-themed mug concept"><span class="mini-mug"><i></i></span></div>
+          <div class="merch-card-copy"><span class="merch-type">LITTLE EXTRAS</span><h2>Watermelon Mug</h2><p>A bright melon-red mug to add a splash of fruit to your day.</p><div class="product-buy-row"><strong class="product-price">£15</strong><button class="add-to-cart" type="button">Add to cart</button></div></div>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      <a class="wordmark" href="index.html#home"><span class="wordmark-icon" aria-hidden="true">W</span><span>Water &amp; Melon Merch</span></a>
+      <span>Watermelon-inspired merch, from clothes to collectibles.</span>
+      <a href="index.html#home">Back to home ↑</a>
+    </footer>
+    <script src="supabase-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="shop.js"></script>
+  </body>
+</html>
