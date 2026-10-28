@@ -34,14 +34,13 @@
         <button class="cart-close" id="cart-close" type="button" aria-label="Close shopping cart">×</button>
       </div>
       <div class="cart-items" id="cart-items"><p class="cart-empty">Your cart is empty.</p></div>
-      <label class="delivery-label" for="delivery-region">Delivery destination</label>
-      <select id="delivery-region">
-        <option value="uk">United Kingdom</option>
-        <option value="international">International</option>
+      <label class="delivery-label" for="shipping-country">Delivery country</label>
+      <select id="shipping-country" required disabled>
+        <option value="">Set up delivery countries to continue</option>
       </select>
       <div class="cart-total"><span>Total</span><strong id="cart-total">£0</strong></div>
       <button class="primary-button checkout-button" type="button" disabled>Continue to secure checkout</button>
-      <p class="cart-note">Checkout and delivery rates need setup.</p>
+      <p class="cart-note">Choose your country. Enter your full address and card securely with Stripe at checkout.</p>
     </aside>
 
     <main class="shop-page">

@@ -12,42 +12,64 @@ type ProductId = keyof typeof products;
 const jsonHeaders = { "Content-Type": "application/json" };
 
 Deno.serve(async (request: Request) => {
-  const siteUrl = Deno.env.get("SITE_URL")?.replace(/\/$/, "");
+  const siteUrl = Deno.env.get("SITE_URL")?.replace(/\/+$/, "");
+  let siteOrigin: string | undefined;
+  try {
+    const parsedSiteUrl = new URL(siteUrl || "");
+    if (parsedSiteUrl.protocol === "https:" && !parsedSiteUrl.search && !parsedSiteUrl.hash) {
+      siteOrigin = parsedSiteUrl.origin;
+    }
+  } catch {
+    siteOrigin = undefined;
+  }
   const requestOrigin = request.headers.get("Origin");
   const corsHeaders = {
-    "Access-Control-Allow-Origin": siteUrl && requestOrigin === siteUrl ? siteUrl : "null",
+    "Access-Control-Allow-Origin": siteOrigin && requestOrigin === siteOrigin ? siteOrigin : "null",
     "Access-Control-Allow-Headers": "authorization, apikey, content-type",
-    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
     "Vary": "Origin"
   };
 
   if (request.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
   }
-  if (request.method !== "POST") {
+  if (request.method !== "GET" && request.method !== "POST") {
     return Response.json({ error: "Method not allowed." }, { status: 405, headers: { ...corsHeaders, ...jsonHeaders } });
   }
-  if (!siteUrl) {
+  if (!siteUrl || !siteOrigin) {
     return Response.json({ error: "Checkout site URL is not configured." }, { status: 500, headers: { ...corsHeaders, ...jsonHeaders } });
   }
-  if (requestOrigin !== siteUrl) {
+  if (requestOrigin !== siteOrigin) {
     return Response.json({ error: "Request origin is not allowed." }, { status: 403, headers: { ...corsHeaders, ...jsonHeaders } });
+  }
+
+  const shippingRatesRaw = Deno.env.get("SHIPPING_RATE_IDS");
+  let shippingRates: Record<string, string>;
+  try {
+    const parsedRates = JSON.parse(shippingRatesRaw || "");
+    if (!parsedRates || typeof parsedRates !== "object" || Array.isArray(parsedRates)) {
+      throw new Error("Shipping rates must be an object.");
+    }
+    const entries = Object.entries(parsedRates);
+    if (entries.length === 0 || entries.some(([country, rateId]) =>
+      !/^[A-Z]{2}$/.test(country) || typeof rateId !== "string" || !/^shr_[A-Za-z0-9]+$/.test(rateId)
+    )) {
+      throw new Error("Shipping rates must map country codes to Stripe shipping rate IDs.");
+    }
+    shippingRates = Object.fromEntries(entries) as Record<string, string>;
+  } catch {
+    return Response.json({ error: "Configure valid country-specific Stripe shipping rates." }, { status: 503, headers: { ...corsHeaders, ...jsonHeaders } });
+  }
+
+  if (request.method === "GET") {
+    return Response.json({ countries: Object.keys(shippingRates) }, { headers: { ...corsHeaders, ...jsonHeaders } });
   }
 
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
   const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY");
   const stripeSecretKey = Deno.env.get("STRIPE_SECRET_KEY");
-  const ukShippingRateId = Deno.env.get("UK_SHIPPING_RATE_ID");
-  const internationalShippingRateId = Deno.env.get("INTERNATIONAL_SHIPPING_RATE_ID");
-  const shippingCountries = (Deno.env.get("SHIPPING_COUNTRIES") || "")
-    .split(",")
-    .map((country) => country.trim().toUpperCase())
-    .filter(Boolean);
-  if (!supabaseUrl || !supabaseAnonKey || !stripeSecretKey || !ukShippingRateId || !internationalShippingRateId) {
+  if (!supabaseUrl || !supabaseAnonKey || !stripeSecretKey) {
     return Response.json({ error: "Checkout and delivery settings are not fully configured." }, { status: 503, headers: { ...corsHeaders, ...jsonHeaders } });
-  }
-  if (shippingCountries.length === 0 || !shippingCountries.includes("GB") || shippingCountries.some((country) => !/^[A-Z]{2}$/.test(country))) {
-    return Response.json({ error: "Configure valid delivery country codes, including GB." }, { status: 503, headers: { ...corsHeaders, ...jsonHeaders } });
   }
 
   const authorization = request.headers.get("Authorization");
@@ -71,7 +93,7 @@ Deno.serve(async (request: Request) => {
     return Response.json({ error: "Could not verify your account." }, { status: 401, headers: { ...corsHeaders, ...jsonHeaders } });
   }
 
-  let body: { items?: unknown; deliveryRegion?: unknown };
+  let body: { items?: unknown; shippingCountry?: unknown };
   try {
     body = await request.json();
   } catch {
@@ -80,14 +102,8 @@ Deno.serve(async (request: Request) => {
   if (!Array.isArray(body.items) || body.items.length === 0 || body.items.length > 10) {
     return Response.json({ error: "Your cart is empty or invalid." }, { status: 400, headers: { ...corsHeaders, ...jsonHeaders } });
   }
-  if (body.deliveryRegion !== "uk" && body.deliveryRegion !== "international") {
-    return Response.json({ error: "Choose a valid delivery destination." }, { status: 400, headers: { ...corsHeaders, ...jsonHeaders } });
-  }
-  const allowedShippingCountries = body.deliveryRegion === "uk"
-    ? ["GB"]
-    : shippingCountries.filter((country) => country !== "GB");
-  if (allowedShippingCountries.length === 0) {
-    return Response.json({ error: "International delivery countries are not configured yet." }, { status: 503, headers: { ...corsHeaders, ...jsonHeaders } });
+  if (typeof body.shippingCountry !== "string" || !Object.prototype.hasOwnProperty.call(shippingRates, body.shippingCountry)) {
+    return Response.json({ error: "Choose a country with configured delivery." }, { status: 400, headers: { ...corsHeaders, ...jsonHeaders } });
   }
 
   const lineItems: Array<{ id: ProductId; quantity: number }> = [];
@@ -119,11 +135,9 @@ Deno.serve(async (request: Request) => {
   stripeBody.set("customer_email", user.email);
   stripeBody.set("client_reference_id", user.id);
   stripeBody.set("metadata[user_id]", user.id);
-  allowedShippingCountries.forEach((country) => {
-    stripeBody.append("shipping_address_collection[allowed_countries][]", country);
-  });
-  const shippingRateId = body.deliveryRegion === "uk" ? ukShippingRateId : internationalShippingRateId;
-  stripeBody.set("shipping_options[0][shipping_rate]", shippingRateId);
+  stripeBody.set("billing_address_collection", "required");
+  stripeBody.append("shipping_address_collection[allowed_countries][]", body.shippingCountry);
+  stripeBody.set("shipping_options[0][shipping_rate]", shippingRates[body.shippingCountry]);
   lineItems.forEach((item, index) => {
     const product = products[item.id];
     stripeBody.set(`line_items[${index}][price_data][currency]`, "gbp");

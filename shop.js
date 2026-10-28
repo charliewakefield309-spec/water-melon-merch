@@ -16,7 +16,7 @@
   const cartTotal = document.querySelector("#cart-total");
   const checkoutButton = document.querySelector(".checkout-button");
   const cartNote = document.querySelector(".cart-note");
-  const deliveryRegion = document.querySelector("#delivery-region");
+  const shippingCountry = document.querySelector("#shipping-country");
   const shopStatus = document.querySelector("#shop-status");
   const limitedCutoff = Date.UTC(2026, 10, 2);
   const checkoutConfigured = Boolean(config.supabaseUrl && config.supabaseAnonKey);
@@ -51,7 +51,7 @@
     const itemCount = entries.reduce((sum, [, quantity]) => sum + quantity, 0);
     cartCount.textContent = String(itemCount);
     cartTotal.textContent = `£${entries.reduce((sum, [id, quantity]) => sum + products[id].price * quantity, 0)}`;
-    checkoutButton.disabled = itemCount === 0 || !checkoutConfigured;
+    checkoutButton.disabled = itemCount === 0 || !checkoutConfigured || !shippingCountry.value;
     cartItems.replaceChildren();
 
     if (entries.length === 0) {
@@ -158,7 +158,7 @@
           "Authorization": `Bearer ${session.access_token}`
         },
         body: JSON.stringify({
-          deliveryRegion: deliveryRegion.value,
+          shippingCountry: shippingCountry.value,
           items: Object.entries(cart).map(([productId, quantity]) => ({ productId, quantity }))
         })
       });
@@ -178,6 +178,8 @@
   if (!checkoutConfigured) {
     shopStatus.lastChild.textContent = " Prices are in pounds. Configure Supabase and Stripe to enable secure checkout.";
     cartNote.textContent = "Set up Supabase and Stripe to enable secure checkout.";
+  } else {
+    loadShippingCountries();
   }
   if (new URLSearchParams(window.location.search).get("checkout") === "cancelled") {
     cartNote.textContent = "Checkout was canceled. Your cart is still here if you'd like to try again.";
@@ -190,4 +192,42 @@
   }
   updateLimitedProduct();
   updateCart();
+
+  async function loadShippingCountries() {
+    try {
+      const response = await fetch(`${config.supabaseUrl}/functions/v1/create-checkout-session`, {
+        headers: {
+          "apikey": config.supabaseAnonKey,
+          "Authorization": `Bearer ${config.supabaseAnonKey}`
+        }
+      });
+      const result = await response.json();
+      if (!response.ok || !Array.isArray(result.countries)) {
+        throw new Error(result.error || "Delivery countries are not available yet.");
+      }
+
+      const displayNames = new Intl.DisplayNames(["en"], { type: "region" });
+      const countries = result.countries
+        .filter((country) => typeof country === "string" && /^[A-Z]{2}$/.test(country))
+        .map((code) => ({ code, name: displayNames.of(code) || code }))
+        .sort((first, second) => first.name.localeCompare(second.name));
+      shippingCountry.replaceChildren(new Option("Choose a country", ""));
+      for (const country of countries) {
+        shippingCountry.add(new Option(country.name, country.code));
+      }
+      shippingCountry.disabled = countries.length === 0;
+      if (countries.length === 0) {
+        throw new Error("No delivery countries have been configured yet.");
+      }
+      cartNote.textContent = "Choose your country. Enter your full address and card securely with Stripe at checkout.";
+      updateCart();
+    } catch (error) {
+      shippingCountry.replaceChildren(new Option("Delivery countries unavailable", ""));
+      shippingCountry.disabled = true;
+      cartNote.textContent = error instanceof Error ? error.message : "Could not load delivery countries.";
+      updateCart();
+    }
+  }
+
+  shippingCountry.addEventListener("change", updateCart);
 })();

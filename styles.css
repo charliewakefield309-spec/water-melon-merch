@@ -202,7 +202,8 @@ footer > span, footer > a:last-child { color: #d4e5d1; font-size: 10px; }
 .cart-quantity button { width: 25px; height: 25px; border: 1px solid var(--line); border-radius: 50%; background: #fff; color: var(--green); font-size: 16px; cursor: pointer; }
 .cart-total { display: flex; justify-content: space-between; padding: 12px 0; border-top: 1px solid var(--line); font-size: 13px; }
 .delivery-label { display: block; margin-top: 4px; color: var(--muted); font-size: 10px; font-weight: 600; }
-#delivery-region { width: 100%; margin-top: 6px; padding: 9px 10px; border: 1px solid var(--line); border-radius: 4px; background: #fff; color: var(--ink); font: 11px "DM Sans", sans-serif; }
+#shipping-country { width: 100%; margin-top: 6px; padding: 9px 10px; border: 1px solid var(--line); border-radius: 4px; background: #fff; color: var(--ink); font: 11px "DM Sans", sans-serif; }
+#shipping-country:disabled { color: var(--muted); }
 .checkout-button { width: 100%; justify-content: center; opacity: .58; cursor: not-allowed; }
 .checkout-button:enabled { opacity: 1; cursor: pointer; }
 .checkout-button:enabled:hover { background: var(--green); }

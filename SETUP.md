@@ -11,15 +11,14 @@ The site now includes Supabase email/password auth and a Stripe Checkout integra
 
 ## Stripe Checkout and delivery
 
-1. In Stripe **test mode**, create separate GBP shipping rates for UK and international delivery. Decide the postage prices and countries served before enabling checkout.
+1. In Stripe **test mode**, create a GBP shipping rate for each country you can deliver to. Set the prices before enabling checkout.
 2. Set Supabase Edge Function secrets in the Supabase dashboard:
    - `STRIPE_SECRET_KEY` — test-mode secret key
-   - `SITE_URL` — the site's HTTPS origin, without a trailing slash
-   - `UK_SHIPPING_RATE_ID` — Stripe's UK shipping-rate ID
-   - `INTERNATIONAL_SHIPPING_RATE_ID` — Stripe's international shipping-rate ID
-   - `SHIPPING_COUNTRIES` — comma-separated ISO 3166-1 alpha-2 country codes you can deliver to, including `GB` (for example `GB,US,CA,AU,NZ`)
-3. Deploy `supabase/functions/create-checkout-session/index.ts` as the `create-checkout-session` Edge Function using the Supabase CLI. It verifies the Supabase user, accepts only the fixed server-side product catalog, enforces the limited plush deadline, restricts addresses to the selected UK/international region, and creates a hosted Stripe Checkout session.
-4. Test signup, email confirmation, sign-in, cart quantities, UK/international country restrictions, and successful/canceled test payments before using live keys.
+   - `SITE_URL` — the site's full HTTPS base URL without a trailing slash (for GitHub Pages: `https://charliewakefield309-spec.github.io/water-melon-merch`)
+   - `SHIPPING_RATE_IDS` — a JSON object mapping each deliverable ISO 3166-1 alpha-2 country code to its Stripe shipping-rate ID (for example `{"GB":"shr_...","US":"shr_...","CA":"shr_..."}`)
+3. Configure the site's HTTPS origin in Supabase's allowed origins. For GitHub Pages, use `https://charliewakefield309-spec.github.io` (without the repository path).
+4. Deploy `supabase/functions/create-checkout-session/index.ts` as the `create-checkout-session` Edge Function using the Supabase CLI. It verifies the Supabase user, accepts only the fixed server-side product catalog, enforces the limited plush deadline, offers only countries with a configured shipping rate, and creates a hosted Stripe Checkout session. Customers enter their full shipping/billing address and card details on Stripe's secure page.
+5. Test signup, email confirmation, sign-in, cart quantities, each configured destination and its shipping rate, and successful/canceled test payments before using live keys.
 
 ## Current catalog
 
