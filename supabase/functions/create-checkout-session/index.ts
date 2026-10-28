@@ -30,14 +30,14 @@ Deno.serve(async (request: Request) => {
   const corsHeaders = {
     "Access-Control-Allow-Origin": siteOrigin && requestOrigin === siteOrigin ? siteOrigin : "null",
     "Access-Control-Allow-Headers": "authorization, apikey, content-type",
-    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
     "Vary": "Origin"
   };
 
   if (request.method === "OPTIONS") {
     return new Response("ok", { headers: corsHeaders });
   }
-  if (request.method !== "GET" && request.method !== "POST") {
+  if (request.method !== "POST") {
     return Response.json({ error: "Method not allowed." }, { status: 405, headers: { ...corsHeaders, ...jsonHeaders } });
   }
   if (!siteUrl || !siteOrigin) {
@@ -50,10 +50,6 @@ Deno.serve(async (request: Request) => {
   const shippingRateId = Deno.env.get("SHIPPING_RATE_ID");
   if (!shippingRateId || !/^shr_[A-Za-z0-9]+$/.test(shippingRateId)) {
     return Response.json({ error: "Configure a valid worldwide Stripe shipping rate." }, { status: 503, headers: { ...corsHeaders, ...jsonHeaders } });
-  }
-
-  if (request.method === "GET") {
-    return Response.json({ countries: [...shippingCountries] }, { headers: { ...corsHeaders, ...jsonHeaders } });
   }
 
   const supabaseUrl = Deno.env.get("SUPABASE_URL");

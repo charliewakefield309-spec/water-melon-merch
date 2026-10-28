@@ -9,6 +9,7 @@
     mug: { name: "Watermelon Mug", price: 15 }
   };
   const cartKey = "watermelon-merch-cart";
+  const shippingCountryCodes = "AD,AE,AF,AG,AI,AL,AM,AO,AQ,AR,AS,AT,AU,AW,AX,AZ,BA,BB,BD,BE,BF,BG,BH,BI,BJ,BL,BM,BN,BO,BQ,BR,BS,BT,BV,BW,BY,BZ,CA,CC,CD,CF,CG,CH,CI,CK,CL,CM,CN,CO,CR,CU,CV,CW,CX,CY,CZ,DE,DJ,DK,DM,DO,DZ,EC,EE,EG,EH,ER,ES,ET,FI,FJ,FK,FM,FO,FR,GA,GB,GD,GE,GF,GG,GH,GI,GL,GM,GN,GP,GQ,GR,GS,GT,GU,GW,GY,HK,HM,HN,HR,HT,HU,ID,IE,IL,IM,IN,IO,IQ,IR,IS,IT,JE,JM,JO,JP,KE,KG,KH,KI,KM,KN,KP,KR,KW,KY,KZ,LA,LB,LC,LI,LK,LR,LS,LT,LU,LV,LY,MA,MC,MD,ME,MF,MG,MH,MK,ML,MM,MN,MO,MP,MQ,MR,MS,MT,MU,MV,MW,MX,MY,MZ,NA,NC,NE,NF,NG,NI,NL,NO,NP,NR,NU,NZ,OM,PA,PE,PF,PG,PH,PK,PL,PM,PN,PR,PS,PT,PW,PY,QA,RE,RO,RS,RU,RW,SA,SB,SC,SD,SE,SG,SH,SI,SJ,SK,SL,SM,SN,SO,SR,SS,ST,SV,SX,SY,SZ,TC,TD,TF,TG,TH,TJ,TK,TL,TM,TN,TO,TR,TT,TV,TW,TZ,UA,UG,UM,US,UY,UZ,VA,VC,VE,VG,VI,VN,VU,WF,WS,YE,YT,ZA,ZM,ZW".split(",");
   const cartToggle = document.querySelector("#cart-toggle");
   const cartPanel = document.querySelector("#shopping-cart");
   const cartItems = document.querySelector("#cart-items");
@@ -20,6 +21,15 @@
   const shopStatus = document.querySelector("#shop-status");
   const limitedCutoff = Date.UTC(2026, 10, 2);
   const checkoutConfigured = Boolean(config.supabaseUrl && config.supabaseAnonKey);
+
+  const displayNames = new Intl.DisplayNames(["en"], { type: "region" });
+  const countryNameOverrides = { EH: "Western Sahara" };
+  shippingCountry.replaceChildren(new Option("Choose a country", ""));
+  shippingCountryCodes
+    .map((code) => ({ code, name: countryNameOverrides[code] || displayNames.of(code) || code }))
+    .sort((first, second) => first.name.localeCompare(second.name))
+    .forEach((country) => shippingCountry.add(new Option(country.name, country.code)));
+  shippingCountry.disabled = false;
 
   function loadCart() {
     try {
@@ -178,8 +188,6 @@
   if (!checkoutConfigured) {
     shopStatus.lastChild.textContent = " Prices are in pounds. Configure Supabase and Stripe to enable secure checkout.";
     cartNote.textContent = "Set up Supabase and Stripe to enable secure checkout.";
-  } else {
-    loadShippingCountries();
   }
   if (new URLSearchParams(window.location.search).get("checkout") === "cancelled") {
     cartNote.textContent = "Checkout was canceled. Your cart is still here if you'd like to try again.";
@@ -192,42 +200,5 @@
   }
   updateLimitedProduct();
   updateCart();
-
-  async function loadShippingCountries() {
-    try {
-      const response = await fetch(`${config.supabaseUrl}/functions/v1/create-checkout-session`, {
-        headers: {
-          "apikey": config.supabaseAnonKey,
-          "Authorization": `Bearer ${config.supabaseAnonKey}`
-        }
-      });
-      const result = await response.json();
-      if (!response.ok || !Array.isArray(result.countries)) {
-        throw new Error(result.error || "Delivery countries are not available yet.");
-      }
-
-      const displayNames = new Intl.DisplayNames(["en"], { type: "region" });
-      const countries = result.countries
-        .filter((country) => typeof country === "string" && /^[A-Z]{2}$/.test(country))
-        .map((code) => ({ code, name: displayNames.of(code) || code }))
-        .sort((first, second) => first.name.localeCompare(second.name));
-      shippingCountry.replaceChildren(new Option("Choose a country", ""));
-      for (const country of countries) {
-        shippingCountry.add(new Option(country.name, country.code));
-      }
-      shippingCountry.disabled = countries.length === 0;
-      if (countries.length === 0) {
-        throw new Error("No delivery countries have been configured yet.");
-      }
-      cartNote.textContent = "Choose your country. Enter your full address and card securely with Stripe at checkout.";
-      updateCart();
-    } catch (error) {
-      shippingCountry.replaceChildren(new Option("Delivery countries unavailable", ""));
-      shippingCountry.disabled = true;
-      cartNote.textContent = error instanceof Error ? error.message : "Could not load delivery countries.";
-      updateCart();
-    }
-  }
-
   shippingCountry.addEventListener("change", updateCart);
 })();
