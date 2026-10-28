@@ -23,12 +23,17 @@ a { color: inherit; text-decoration: none; }
   background: #205f38; color: var(--cream);
 }
 .wordmark { display: inline-flex; align-items: center; gap: 10px; font-weight: 700; letter-spacing: -.04em; font-size: 24px; }
+.account-badge { padding: 6px 10px; border: 1px solid rgba(255,248,241,.3); border-radius: 999px; color: #e6f0df; font-size: 10px; font-weight: 600; letter-spacing: 0; }
+.account-badge[hidden], .auth-signout[hidden] { display: none; }
 .wordmark-icon {
   width: 34px; height: 34px; display: grid; place-items: center; border-radius: 50%;
   background: var(--red); color: white; font-family: "Space Grotesk", sans-serif; font-size: 17px;
   box-shadow: inset 0 -4px 0 rgba(150, 35, 54, .16);
 }
 nav { display: flex; align-items: center; gap: 35px; font-size: 13px; font-weight: 600; }
+nav [hidden] { display: none; }
+nav .auth-signout { padding: 8px 12px; border: 1px solid rgba(255,248,241,.35); border-radius: 999px; background: transparent; color: var(--cream); font: 600 12px "DM Sans", sans-serif; cursor: pointer; }
+nav .auth-signout:hover { background: rgba(255,248,241,.12); }
 nav a, .header-link, footer a { transition: opacity .2s ease; }
 nav a:hover, nav span:hover, .header-link:hover, footer a:hover { opacity: .62; }
 nav span { color: #e6f0df; cursor: default; }
@@ -289,6 +294,7 @@ footer > span, footer > a:last-child { color: #d4e5d1; font-size: 10px; }
   .site-header { min-height: 106px; padding: 12px 6%; gap: 10px; }
   .wordmark { font-size: 20px; }
   .wordmark-icon { width: 29px; height: 29px; font-size: 15px; }
+  .account-badge { max-width: 38vw; overflow: hidden; text-overflow: ellipsis; font-size: 9px; }
   nav { gap: 18px; font-size: 11px; }
   .cart-button { gap: 4px; padding: 6px 7px; font-size: 10px; }
   .sign-up-label { padding: 7px 12px; }

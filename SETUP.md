@@ -6,8 +6,9 @@ The site now includes Supabase email/password auth and a Stripe Checkout integra
 
 1. Host the site on an HTTPS static host. Authentication redirects and Stripe Checkout will not work from a `file://` preview.
 2. Create a Supabase project and enable email/password under **Authentication → Providers**. Configure the site's HTTPS URL and `/signin.html` under the auth URL/redirect settings. Email confirmation also needs working email delivery.
-3. Copy the project's **Project URL** and **publishable anon key** into `supabase-config.js`. These are browser-visible values. Never put a Supabase service-role key or Stripe secret key in this file.
+3. Copy the project's **Project URL** and **publishable anon key** into `supabase-config.js`. These are browser-visible values. Never put a Supabase service-role key or Stripe secret key in this file. Until this is done, the site deliberately keeps account form submissions disabled.
 4. Configure the hosted site's allowed origins in Supabase so the browser can call its Edge Function.
+5. Once configured, email/password sign-up and sign-in are available. The shared header displays the signed-in email beside the site title and offers sign-out.
 
 ## Stripe Checkout and delivery
 

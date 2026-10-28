@@ -16,6 +16,7 @@
       <a class="wordmark" href="index.html#home" aria-label="Water and Melon Merch home">
         <span class="wordmark-icon" aria-hidden="true">W</span>
         <span>Water &amp; Melon Merch</span>
+        <span class="account-badge" data-account-badge hidden aria-live="polite"></span>
       </a>
       <nav aria-label="Main navigation">
         <a href="index.html#home">Home</a>
@@ -23,6 +24,7 @@
         <a href="subscriptions.html">Subscriptions</a>
         <a href="signin.html">Sign In</a>
         <a class="sign-up-label" href="signup.html" aria-current="page">Sign Up</a>
+        <button class="auth-signout" type="button" data-auth-signout hidden>Sign Out</button>
       </nav>
     </header>
 
@@ -51,6 +53,7 @@
     </footer>
     <script src="supabase-config.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="site-auth.js"></script>
     <script src="auth.js"></script>
   </body>
 </html>
