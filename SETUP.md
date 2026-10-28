@@ -23,7 +23,7 @@ The site now includes Supabase email/password auth and a Stripe Checkout integra
 
 ## Current catalog
 
-All item prices are set server-side in GBP to match the site: watermelon pumpkin plush £20 (limited through 1 November 2026), avatar plush £3, hoodie £8, cap £5, stickers £1, and mug £15. Shipping is added by the selected Stripe shipping rate.
+All item prices are set server-side in GBP to match the site: watermelon pumpkin plush £20 (limited through 1 November 2026), avatar plush £3, Rainbow Character Plushie £3, hoodie £8, cap £5, stickers £1, and mug £15. Shipping is added by the selected Stripe shipping rate.
 
 Monthly Stripe subscriptions are set server-side at £5 for Watermelon Supporter, £10 for Watermelon Champion, and £20 for Watermelon Boss.
 

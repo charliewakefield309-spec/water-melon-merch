@@ -4,7 +4,8 @@ const products = {
   hoodie: { name: "Juicy Hoodie", unitAmount: 800 },
   cap: { name: "Watermelon Cap", unitAmount: 500 },
   stickers: { name: "Watermelon Stickers", unitAmount: 100 },
-  mug: { name: "Watermelon Mug", unitAmount: 1500 }
+  mug: { name: "Watermelon Mug", unitAmount: 1500 },
+  "rainbow-plush": { name: "Rainbow Character Plushie", unitAmount: 300 }
 } as const;
 
 type ProductId = keyof typeof products;
