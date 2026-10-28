@@ -11,14 +11,14 @@ The site now includes Supabase email/password auth and a Stripe Checkout integra
 
 ## Stripe Checkout and delivery
 
-1. In Stripe **test mode**, create a GBP shipping rate for each country you can deliver to. Set the prices before enabling checkout.
+1. In Stripe **test mode**, create one GBP flat shipping rate to use for every destination. Make sure the price is enough to cover the most expensive destination before enabling worldwide delivery.
 2. Set Supabase Edge Function secrets in the Supabase dashboard:
    - `STRIPE_SECRET_KEY` — test-mode secret key
    - `SITE_URL` — the site's full HTTPS base URL without a trailing slash (for GitHub Pages: `https://charliewakefield309-spec.github.io/water-melon-merch`)
-   - `SHIPPING_RATE_IDS` — a JSON object mapping each deliverable ISO 3166-1 alpha-2 country code to its Stripe shipping-rate ID (for example `{"GB":"shr_...","US":"shr_...","CA":"shr_..."}`)
+   - `SHIPPING_RATE_ID` — Stripe's flat GBP shipping-rate ID used for every country
 3. Configure the site's HTTPS origin in Supabase's allowed origins. For GitHub Pages, use `https://charliewakefield309-spec.github.io` (without the repository path).
-4. Deploy `supabase/functions/create-checkout-session/index.ts` as the `create-checkout-session` Edge Function using the Supabase CLI. It verifies the Supabase user, accepts only the fixed server-side product catalog, enforces the limited plush deadline, offers only countries with a configured shipping rate, and creates a hosted Stripe Checkout session. Customers enter their full shipping/billing address and card details on Stripe's secure page.
-5. Test signup, email confirmation, sign-in, cart quantities, each configured destination and its shipping rate, and successful/canceled test payments before using live keys.
+4. Deploy `supabase/functions/create-checkout-session/index.ts` as the `create-checkout-session` Edge Function using the Supabase CLI. It verifies the Supabase user, accepts only the fixed server-side product catalog, enforces the limited plush deadline, offers the ISO 3166 country and territory list, and creates a hosted Stripe Checkout session using the same shipping rate for all destinations. Customers enter their full shipping/billing address and card details on Stripe's secure page.
+5. Test signup, email confirmation, sign-in, cart quantities, addresses from different continents, and successful/canceled test payments before using live keys. Stripe may not permit delivery to certain destinations; do not advertise delivery there unless your carrier and Stripe support it.
 
 ## Current catalog
 

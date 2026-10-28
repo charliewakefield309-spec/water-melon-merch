@@ -9,6 +9,10 @@ const products = {
 
 type ProductId = keyof typeof products;
 
+const shippingCountries = new Set(
+  "AD,AE,AF,AG,AI,AL,AM,AO,AQ,AR,AS,AT,AU,AW,AX,AZ,BA,BB,BD,BE,BF,BG,BH,BI,BJ,BL,BM,BN,BO,BQ,BR,BS,BT,BV,BW,BY,BZ,CA,CC,CD,CF,CG,CH,CI,CK,CL,CM,CN,CO,CR,CU,CV,CW,CX,CY,CZ,DE,DJ,DK,DM,DO,DZ,EC,EE,EG,EH,ER,ES,ET,FI,FJ,FK,FM,FO,FR,GA,GB,GD,GE,GF,GG,GH,GI,GL,GM,GN,GP,GQ,GR,GS,GT,GU,GW,GY,HK,HM,HN,HR,HT,HU,ID,IE,IL,IM,IN,IO,IQ,IR,IS,IT,JE,JM,JO,JP,KE,KG,KH,KI,KM,KN,KP,KR,KW,KY,KZ,LA,LB,LC,LI,LK,LR,LS,LT,LU,LV,LY,MA,MC,MD,ME,MF,MG,MH,MK,ML,MM,MN,MO,MP,MQ,MR,MS,MT,MU,MV,MW,MX,MY,MZ,NA,NC,NE,NF,NG,NI,NL,NO,NP,NR,NU,NZ,OM,PA,PE,PF,PG,PH,PK,PL,PM,PN,PR,PS,PT,PW,PY,QA,RE,RO,RS,RU,RW,SA,SB,SC,SD,SE,SG,SH,SI,SJ,SK,SL,SM,SN,SO,SR,SS,ST,SV,SX,SY,SZ,TC,TD,TF,TG,TH,TJ,TK,TL,TM,TN,TO,TR,TT,TV,TW,TZ,UA,UG,UM,US,UY,UZ,VA,VC,VE,VG,VI,VN,VU,WF,WS,YE,YT,ZA,ZM,ZW".split(",")
+);
+
 const jsonHeaders = { "Content-Type": "application/json" };
 
 Deno.serve(async (request: Request) => {
@@ -43,26 +47,13 @@ Deno.serve(async (request: Request) => {
     return Response.json({ error: "Request origin is not allowed." }, { status: 403, headers: { ...corsHeaders, ...jsonHeaders } });
   }
 
-  const shippingRatesRaw = Deno.env.get("SHIPPING_RATE_IDS");
-  let shippingRates: Record<string, string>;
-  try {
-    const parsedRates = JSON.parse(shippingRatesRaw || "");
-    if (!parsedRates || typeof parsedRates !== "object" || Array.isArray(parsedRates)) {
-      throw new Error("Shipping rates must be an object.");
-    }
-    const entries = Object.entries(parsedRates);
-    if (entries.length === 0 || entries.some(([country, rateId]) =>
-      !/^[A-Z]{2}$/.test(country) || typeof rateId !== "string" || !/^shr_[A-Za-z0-9]+$/.test(rateId)
-    )) {
-      throw new Error("Shipping rates must map country codes to Stripe shipping rate IDs.");
-    }
-    shippingRates = Object.fromEntries(entries) as Record<string, string>;
-  } catch {
-    return Response.json({ error: "Configure valid country-specific Stripe shipping rates." }, { status: 503, headers: { ...corsHeaders, ...jsonHeaders } });
+  const shippingRateId = Deno.env.get("SHIPPING_RATE_ID");
+  if (!shippingRateId || !/^shr_[A-Za-z0-9]+$/.test(shippingRateId)) {
+    return Response.json({ error: "Configure a valid worldwide Stripe shipping rate." }, { status: 503, headers: { ...corsHeaders, ...jsonHeaders } });
   }
 
   if (request.method === "GET") {
-    return Response.json({ countries: Object.keys(shippingRates) }, { headers: { ...corsHeaders, ...jsonHeaders } });
+    return Response.json({ countries: [...shippingCountries] }, { headers: { ...corsHeaders, ...jsonHeaders } });
   }
 
   const supabaseUrl = Deno.env.get("SUPABASE_URL");
@@ -102,8 +93,8 @@ Deno.serve(async (request: Request) => {
   if (!Array.isArray(body.items) || body.items.length === 0 || body.items.length > 10) {
     return Response.json({ error: "Your cart is empty or invalid." }, { status: 400, headers: { ...corsHeaders, ...jsonHeaders } });
   }
-  if (typeof body.shippingCountry !== "string" || !Object.prototype.hasOwnProperty.call(shippingRates, body.shippingCountry)) {
-    return Response.json({ error: "Choose a country with configured delivery." }, { status: 400, headers: { ...corsHeaders, ...jsonHeaders } });
+  if (typeof body.shippingCountry !== "string" || !shippingCountries.has(body.shippingCountry)) {
+    return Response.json({ error: "Choose a valid delivery country." }, { status: 400, headers: { ...corsHeaders, ...jsonHeaders } });
   }
 
   const lineItems: Array<{ id: ProductId; quantity: number }> = [];
@@ -137,7 +128,7 @@ Deno.serve(async (request: Request) => {
   stripeBody.set("metadata[user_id]", user.id);
   stripeBody.set("billing_address_collection", "required");
   stripeBody.append("shipping_address_collection[allowed_countries][]", body.shippingCountry);
-  stripeBody.set("shipping_options[0][shipping_rate]", shippingRates[body.shippingCountry]);
+  stripeBody.set("shipping_options[0][shipping_rate]", shippingRateId);
   lineItems.forEach((item, index) => {
     const product = products[item.id];
     stripeBody.set(`line_items[${index}][price_data][currency]`, "gbp");
