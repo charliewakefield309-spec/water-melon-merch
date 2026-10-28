@@ -18,10 +18,13 @@ The site now includes Supabase email/password auth and a Stripe Checkout integra
    - `SHIPPING_RATE_ID` — Stripe's flat GBP shipping-rate ID used for every country
 3. Configure the site's HTTPS origin in Supabase's allowed origins. For GitHub Pages, use `https://charliewakefield309-spec.github.io` (without the repository path).
 4. Deploy `supabase/functions/create-checkout-session/index.ts` as the `create-checkout-session` Edge Function using the Supabase CLI. It verifies the Supabase user, accepts only the fixed server-side product catalog, enforces the limited plush deadline, offers the ISO 3166 country and territory list, and creates a hosted Stripe Checkout session using the same shipping rate for all destinations. Customers enter their full shipping/billing address and card details on Stripe's secure page.
-5. Test signup, email confirmation, sign-in, cart quantities, addresses from different continents, and successful/canceled test payments before using live keys. Stripe may not permit delivery to certain destinations; do not advertise delivery there unless your carrier and Stripe support it.
+5. Test signup, email confirmation, sign-in, cart quantities, addresses from different continents, all three monthly subscription tiers, and successful/canceled test payments before using live keys. Stripe may not permit delivery to certain destinations; do not advertise delivery there unless your carrier and Stripe support it.
+6. Before offering subscriptions live, configure clear recurring-billing and cancellation terms and a customer-support process for subscription changes and cancellations.
 
 ## Current catalog
 
 All item prices are set server-side in GBP to match the site: watermelon pumpkin plush £20 (limited through 1 November 2026), avatar plush £3, hoodie £8, cap £5, stickers £1, and mug £15. Shipping is added by the selected Stripe shipping rate.
+
+Monthly Stripe subscriptions are set server-side at £5 for Watermelon Supporter, £10 for Watermelon Champion, and £20 for Watermelon Boss.
 
 Real orders still need a fulfillment process, order confirmation handling, and appropriate store policies before live payments are enabled. The success page is a return page, not proof of payment or an order-management system.

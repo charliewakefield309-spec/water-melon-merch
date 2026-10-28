@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#fff8f1">
+    <meta name="description" content="Join the Water & Melon Merch monthly supporter subscriptions.">
+    <title>Subscriptions — Water &amp; Melon Merch</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="wordmark" href="index.html#home" aria-label="Water and Melon Merch home">
+        <span class="wordmark-icon" aria-hidden="true">W</span>
+        <span>Water &amp; Melon Merch</span>
+      </a>
+      <nav aria-label="Main navigation">
+        <a href="index.html#home">Home</a>
+        <a href="shop.html">Shop</a>
+        <a href="subscriptions.html" aria-current="page">Subscriptions</a>
+        <a href="signin.html">Sign In</a>
+        <a class="sign-up-label" href="signup.html">Sign Up</a>
+      </nav>
+    </header>
+
+    <main class="subscriptions-page">
+      <section class="shop-heading">
+        <p class="eyebrow">JOIN THE MELON CREW</p>
+        <h1>Choose your <span>melon level.</span></h1>
+        <p>Support Water &amp; Melon Merch with a monthly subscription. Pick the level that feels right for you.</p>
+      </section>
+      <p class="subscription-notice" id="subscription-status" role="status" aria-live="polite">
+        Monthly subscriptions are not available until secure checkout is configured.
+      </p>
+      <section class="subscription-grid" aria-label="Monthly subscription tiers">
+        <article class="subscription-card">
+          <span class="subscription-kicker">SEEDLING SUPPORT</span>
+          <h2>Watermelon Supporter</h2>
+          <p class="subscription-price">£5 <span>/ month</span></p>
+          <p class="subscription-description">A little monthly love to help the watermelon merch grow.</p>
+          <button class="primary-button subscription-button" type="button" data-tier="supporter" disabled>Choose Supporter</button>
+        </article>
+        <article class="subscription-card subscription-featured">
+          <span class="subscription-kicker">MELON CREW FAVORITE</span>
+          <h2>Watermelon Champion</h2>
+          <p class="subscription-price">£10 <span>/ month</span></p>
+          <p class="subscription-description">A bigger boost for the designs and ideas you love.</p>
+          <button class="primary-button subscription-button" type="button" data-tier="champion" disabled>Choose Champion</button>
+        </article>
+        <article class="subscription-card">
+          <span class="subscription-kicker">BOSS OF THE PATCH</span>
+          <h2>Watermelon Boss</h2>
+          <p class="subscription-price">£20 <span>/ month</span></p>
+          <p class="subscription-description">The biggest way to back Water &amp; Melon Merch every month.</p>
+          <button class="primary-button subscription-button" type="button" data-tier="boss" disabled>Choose Boss</button>
+        </article>
+      </section>
+      <p class="subscription-fine-print">Billed monthly through Stripe. Your card details are entered securely on Stripe Checkout. Review the subscription terms before confirming.</p>
+    </main>
+
+    <footer>
+      <a class="wordmark" href="index.html#home"><span class="wordmark-icon" aria-hidden="true">W</span><span>Water &amp; Melon Merch</span></a>
+      <span>Watermelon-inspired merch, from clothes to collectibles.</span>
+      <a href="shop.html">Visit the shop ↑</a>
+    </footer>
+    <script src="supabase-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="subscriptions.js"></script>
+  </body>
+</html>

@@ -76,7 +76,11 @@
         });
         if (error) throw error;
         const next = new URLSearchParams(window.location.search).get("next");
-        window.location.assign(next === "checkout" ? "shop.html?checkout=retry" : "shop.html");
+        window.location.assign(next === "checkout"
+          ? "shop.html?checkout=retry"
+          : next === "subscription"
+          ? "subscriptions.html"
+          : "shop.html");
       } catch (error) {
         setStatus(error instanceof Error ? error.message : "Sign-in failed. Please try again.", "error");
       } finally {

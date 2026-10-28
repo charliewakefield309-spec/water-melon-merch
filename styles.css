@@ -208,6 +208,24 @@ footer > span, footer > a:last-child { color: #d4e5d1; font-size: 10px; }
 .checkout-button:enabled { opacity: 1; cursor: pointer; }
 .checkout-button:enabled:hover { background: var(--green); }
 .cart-note { margin: 9px 0 0; color: var(--muted); font-size: 10px; text-align: center; }
+.subscriptions-page { min-height: calc(100vh - 197px); padding: 82px 10% 110px; background: linear-gradient(145deg, #287c45 0%, #287c45 55%, #ed5661 55%, #ed5661 100%); }
+.subscriptions-page .shop-heading { margin-bottom: 30px; }
+.subscriptions-page .shop-heading .eyebrow { color: #d3ed9e; }
+.subscriptions-page .shop-heading h1 { color: #fff8f1; }
+.subscriptions-page .shop-heading h1 span { color: #d3ed9e; }
+.subscriptions-page .shop-heading p:last-child { color: #fff0e8; }
+.subscription-notice { min-height: 20px; margin: 0 auto 22px; color: #fff8f1; font-size: 12px; text-align: center; }
+.subscription-grid { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; align-items: stretch; }
+.subscription-card { display: flex; flex-direction: column; padding: 28px; border: 1px solid var(--line); border-radius: 10px; background: var(--cream); box-shadow: 0 14px 34px rgba(27,62,38,.16); }
+.subscription-featured { outline: 3px solid var(--bright-green); }
+.subscription-kicker { color: var(--green); font-size: 9px; font-weight: 700; letter-spacing: .13em; }
+.subscription-card h2 { min-height: 54px; margin: 17px 0 9px; font-size: 24px; letter-spacing: -.05em; }
+.subscription-price { margin: 0 0 14px; color: var(--green); font-family: "Space Grotesk", sans-serif; font-size: 38px; font-weight: 700; letter-spacing: -.06em; }
+.subscription-price span { color: var(--muted); font-family: "DM Sans", sans-serif; font-size: 12px; font-weight: 500; letter-spacing: 0; }
+.subscription-description { min-height: 56px; margin: 0 0 24px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+.subscription-button { width: 100%; justify-content: center; margin-top: auto; border: 0; cursor: pointer; }
+.subscription-button:disabled { opacity: .58; cursor: not-allowed; }
+.subscription-fine-print { max-width: 740px; margin: 22px auto 0; color: #fff0e8; font-size: 10px; line-height: 1.7; text-align: center; }
 .merch-grid { max-width: 1080px; margin: 0 auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
 .merch-card { overflow: hidden; border: 1px solid var(--line); border-radius: 10px; background: #fff; box-shadow: 0 12px 38px rgba(48, 65, 53, .06); }
 .merch-art { position: relative; min-height: 270px; display: grid; place-items: center; overflow: hidden; }
@@ -290,6 +308,7 @@ footer > span, footer > a:last-child { color: #d4e5d1; font-size: 10px; }
   .about-section { grid-template-columns: 1fr; }
   .hero { background: linear-gradient(160deg, #287c45 0%, #287c45 58%, #ed5661 58%, #ed5661 100%); }
   .shop-page { background: linear-gradient(160deg, #287c45 0%, #287c45 58%, #ed5661 58%, #ed5661 100%); }
+  .subscriptions-page { background: linear-gradient(160deg, #287c45 0%, #287c45 58%, #ed5661 58%, #ed5661 100%); }
   .about-art { min-height: 420px; }
   .about-art img { width: min(74%, 330px); }
   .about-copy { padding: 56px 9% 66px; }
@@ -300,6 +319,7 @@ footer > span, footer > a:last-child { color: #d4e5d1; font-size: 10px; }
   footer { padding: 22px 6%; flex-wrap: wrap; gap: 14px; }
   footer > span { order: 3; width: 100%; }
   .shop-page { min-height: calc(100vh - 220px); padding: 58px 7% 76px; }
+  .subscriptions-page { min-height: calc(100vh - 220px); padding: 58px 7% 76px; }
   .account-page { min-height: calc(100vh - 220px); padding: 38px 7% 50px; }
   .account-card { padding: 30px 24px; }
   .shop-heading { margin-bottom: 32px; }
@@ -329,6 +349,9 @@ footer > span, footer > a:last-child { color: #d4e5d1; font-size: 10px; }
   .shop-feature-art img { width: min(70%, 280px); }
   .shop-feature-copy { padding: 30px 25px 34px; }
   .shop-feature-copy h2 { font-size: 31px; }
+  .subscription-grid { grid-template-columns: 1fr; gap: 14px; }
+  .subscription-card { padding: 24px; }
+  .subscription-card h2, .subscription-description { min-height: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
