@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 360" role="img" aria-labelledby="title description">
+  <title id="title">Rainbow Character cartoon</title>
+  <desc id="description">A blocky cartoon character wearing a black hood, purple galaxy hoodie, and dark pants, with two crossed swords behind.</desc>
+  <defs>
+    <linearGradient id="hood" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#181522"/>
+      <stop offset="1" stop-color="#050509"/>
+    </linearGradient>
+    <linearGradient id="galaxy" x1="0" x2="0.9" y1="0" y2="1">
+      <stop stop-color="#080611"/>
+      <stop offset=".45" stop-color="#20105b"/>
+      <stop offset=".72" stop-color="#8d20ee"/>
+      <stop offset="1" stop-color="#180e43"/>
+    </linearGradient>
+    <linearGradient id="trousers" x1="0" x2="1" y1="0" y2="1">
+      <stop stop-color="#55545a"/>
+      <stop offset=".48" stop-color="#202125"/>
+      <stop offset="1" stop-color="#68676b"/>
+    </linearGradient>
+    <pattern id="stars" width="46" height="38" patternUnits="userSpaceOnUse">
+      <circle cx="7" cy="8" r="1.5" fill="#fff" opacity=".92"/>
+      <circle cx="31" cy="17" r="1" fill="#b9f4ff" opacity=".9"/>
+      <circle cx="18" cy="31" r="1.2" fill="#ffb5fa" opacity=".85"/>
+      <path d="M39 3v5m-2.5-2.5h5" stroke="#fff" stroke-width="1" opacity=".75"/>
+    </pattern>
+    <clipPath id="shirt-clip">
+      <path d="M99 117 76 129 57 155l14 92q2 11 14 11h130q12 0 14-11l14-92-19-26-23-12-19-9h-64z"/>
+    </clipPath>
+  </defs>
+
+  <!-- Crossed swords behind the character -->
+  <g stroke="#29252d" stroke-linejoin="round" stroke-width="5">
+    <path d="m93 116-42-40 7-8 49 35-6 10-8 3z" fill="#c7d8df"/>
+    <path d="m48 73-10-10 9-10 12 13z" fill="#e24f42"/>
+    <path d="m79 94 13-15 6 6-12 16z" fill="#d0a537"/>
+    <path d="m207 116 42-40-7-8-49 35 6 10 8 3z" fill="#c7d8df"/>
+    <path d="m252 73 10-10-9-10-12 13z" fill="#e24f42"/>
+    <path d="m221 94-13-15-6 6 12 16z" fill="#d0a537"/>
+  </g>
+  <path d="m54 70 42 39m150-39-42 39" fill="none" stroke="#f4f3ee" stroke-linecap="round" stroke-width="2"/>
+
+  <!-- Hood and face -->
+  <path d="M95 115c-5-8-8-18-8-30 0-39 27-66 63-66s63 27 63 66c0 12-3 22-8 30l-11 13H106z" fill="#56e72e" stroke="#14151a" stroke-linejoin="round" stroke-width="7"/>
+  <path d="M99 113c-5-8-7-17-7-28 0-34 24-58 58-58s58 24 58 58c0 11-2 20-7 28l-10 12h-82z" fill="url(#hood)" stroke="#090a0d" stroke-linejoin="round" stroke-width="5"/>
+  <path d="M112 61q8-11 19-9h39q12 0 18 10v42q-14 10-38 10t-38-10z" fill="#050508"/>
+  <path d="M130 53h18v7h-18zm18 0h19v7h-19z" fill="#ff27d2"/>
+  <path d="M126 77h48" stroke="#f31825" stroke-linecap="round" stroke-width="4"/>
+  <circle cx="150" cy="82" r="12" fill="none" stroke="#f31825" stroke-width="3"/>
+  <path d="M150 63v38m-19-19h38" stroke="#f31825" stroke-width="2"/>
+  <circle cx="150" cy="82" r="3" fill="#ff2738"/>
+  <path d="M139 106h21" stroke="#e923b8" stroke-linecap="round" stroke-width="4"/>
+
+  <!-- Blocky galaxy hoodie -->
+  <path d="m99 117-23 12-19 26 14 92q2 11 14 11h130q12 0 14-11l14-92-19-26-23-12-19-9h-64z" fill="url(#galaxy)" stroke="#15131c" stroke-linejoin="round" stroke-width="7"/>
+  <g clip-path="url(#shirt-clip)" opacity=".95">
+    <path d="M48 197q35-25 72-3t77 1 61-1v49H48z" fill="#241079" opacity=".8"/>
+    <path d="M51 194q40-20 78 2t75 0 55 0v19q-37-4-63 7-44 18-84-5-34-20-61 1z" fill="#8127f5"/>
+    <path d="M48 207q30-13 57 3t61 7 94-8" fill="none" stroke="#d64cff" stroke-linecap="round" stroke-width="9" opacity=".8"/>
+    <path d="M48 221q41-10 76 5t71 1 66-3" fill="none" stroke="#4226ba" stroke-linecap="round" stroke-width="12" opacity=".9"/>
+    <rect x="50" y="115" width="205" height="143" fill="url(#stars)" opacity=".85"/>
+  </g>
+  <path d="M140 112v28m20-28v28" stroke="#f4f0ef" stroke-linecap="round" stroke-width="5"/>
+  <path d="M140 139h5m15-5h5" stroke="#bdbac7" stroke-linecap="round" stroke-width="3"/>
+  <path d="M75 143v92m150-92v92" stroke="#5b5660" stroke-width="2" opacity=".7"/>
+  <circle cx="76" cy="230" r="10" fill="#16151a" stroke="#89e534" stroke-width="3"/>
+  <circle cx="224" cy="230" r="10" fill="#16151a" stroke="#89e534" stroke-width="3"/>
+
+  <!-- Dark, blocky trousers -->
+  <path d="M81 246h63l-5 50-7 51q-1 7-9 7H83q-9 0-9-9l2-48z" fill="url(#trousers)" stroke="#17171a" stroke-linejoin="round" stroke-width="6"/>
+  <path d="M156 246h63l5 51 2 47q0 10-9 10h-40q-8 0-9-7l-7-51z" fill="url(#trousers)" stroke="#17171a" stroke-linejoin="round" stroke-width="6"/>
+  <path d="m91 255 18 36-16 51m36-82-9 39 5 45m51-87 9 39-5 46m31-87-18 36 16 51" fill="none" stroke="#85848a" stroke-linecap="round" stroke-width="3" opacity=".75"/>
+  <path d="m83 275 54-4m-56 14 48-3m32-7 54 4m-48 5 48 3M79 319l45 2m52-2 45-2" stroke="#17181c" stroke-width="3" opacity=".8"/>
+  <path d="M78 341h48m50 0h48" stroke="#a2a0a5" stroke-linecap="round" stroke-width="4"/>
+</svg>
